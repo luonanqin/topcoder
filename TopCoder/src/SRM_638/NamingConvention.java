@@ -6,8 +6,6 @@ import java.util.Map;
 /**
  * Division II Level One
  *
- * Problem Statement for NamingConvention
- *
  * Problem Statement
  *
  * In most programming languages variable names cannot contain spaces. If we want a variable name that consists of two or more words, we have to encode the
