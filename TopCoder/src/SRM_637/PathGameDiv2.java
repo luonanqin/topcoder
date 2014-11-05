@@ -1,9 +1,10 @@
 package SRM_637;
 
 /**
+ * Division II Level Two
+ *
  * Problem Statement
- * 
- * 
+ *
  * Cat Snuke is playing the Path Game.
  * 
  * 
@@ -30,8 +31,9 @@ package SRM_637;
  * Constraints - board will contain 2 elements. - Each element in board will contain between 1 and 50 characters, inclusive. - All elements in board will have
  * the same length. - Each character in board will be '#' or '.'. - The grid described by board will contain a left-to-right path.
  * 
- * Examples 0)
- * 
+ * Examples
+ *
+ * 0)
  * 
  * {"#...." ,"...#."}
  * 
@@ -43,24 +45,25 @@ package SRM_637;
  * 
  * 1)
  * 
- * 
  * {"#" ,"."}
  * 
  * Returns: 0
  * 
- * Snuke can't color any cells. 2)
- * 
- * 
+ * Snuke can't color any cells.
+ *
+ * 2)
+ *
  * {"." ,"."}
  * 
  * Returns: 1
  * 
  * 3)
- * 
- * 
+ *
  * {"....#.##.....#..........." ,"..#......#.......#..#...."}
  * 
- * Returns: 13 Created by Luonanqin on 11/1/14.
+ * Returns: 13
+ *
+ * Created by Luonanqin on 11/1/14.
  */
 public class PathGameDiv2 {
 
