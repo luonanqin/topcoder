@@ -8,37 +8,36 @@ import java.util.Set;
 public class BoardFoldingDiv2 {
 
 	private Map<String, Set<String>> record = new HashMap<String, Set<String>>();
+	private int count = 1;
 
 	public int howMany(String[] paper) {
 		int row = paper.length;
 		int column = paper[0].length();
 
-		int count = 1;
 		int h = 1, v = 1;
 		// 水平折叠
 		while (h < row) {
-			count += foldHorizontal(paper, h++, 1, 1, row, column);
+			foldHorizontal(paper, h++, 1, 1, row, column);
 		}
 
 		// 垂直折叠
 		while (v < column) {
-			count += foldVertical(paper, v++, 1, 1, row, column);
+			foldVertical(paper, v++, 1, 1, row, column);
 		}
 
 		return count;
 	}
 
 	// 深度优先方式遍历垂直折叠的结果，当遍历完成后再遍历其水平折叠
-	private int foldVertical(String[] paper, int fold, int bRow, int bColumn, int row, int column) {
+	private void foldVertical(String[] paper, int fold, int bRow, int bColumn, int row, int column) {
 		if (fold == column) {
-			return 0;
+			return;
 		}
 		int checkSymmetry = judgeColumnSymmetry(paper, fold, bRow, bColumn, row, column);
 		if (checkSymmetry == 0) {
-			return 0;
+			return;
 		}
 
-		int count = 0;
 		boolean before = false, after = false;
 		if (checkSymmetry == 1) {
 			before = true;
@@ -49,41 +48,37 @@ public class BoardFoldingDiv2 {
 			after = true;
 		}
 		if (before) {
-			count++;
 			int v = 1;
 			while (v < fold) {
-				count += foldVertical(paper, v++, bRow, bColumn, row, fold);
+				foldVertical(paper, v++, bRow, bColumn, row, fold);
 			}
 			int h = 1;
 			while (h < row) {
-				count += foldHorizontalForVertical(paper, h++, bRow, bColumn, row, fold);
+				foldHorizontalForVertical(paper, h++, bRow, bColumn, row, fold);
 			}
 		}
 		if (after) {
-			count++;
 			int v = 1;
 			int nbColumn = bColumn + fold;
 			while (v < (column - fold)) {
-				count += foldVertical(paper, v++, bRow, nbColumn, row, column - fold);
+				foldVertical(paper, v++, bRow, nbColumn, row, column - fold);
 			}
 			int h = 1;
 			while (h < row) {
-				count += foldHorizontalForVertical(paper, h++, bRow, nbColumn, row, column - fold);
+				foldHorizontalForVertical(paper, h++, bRow, nbColumn, row, column - fold);
 			}
 		}
-		return count;
 	}
 
-	private int foldHorizontalForVertical(String[] paper, int fold, int bRow, int bColumn, int row, int column) {
+	private void foldHorizontalForVertical(String[] paper, int fold, int bRow, int bColumn, int row, int column) {
 		if (fold == row) {
-			return 0;
+			return;
 		}
 		int checkSymmetry = judgeRowSymmetry(paper, fold, bRow, bColumn, row, column);
 		if (checkSymmetry == 0) {
-			return 0;
+			return;
 		}
 
-		int count = 0;
 		boolean up = false, down = false;
 		if (checkSymmetry == 1) {
 			up = true;
@@ -94,34 +89,30 @@ public class BoardFoldingDiv2 {
 			down = true;
 		}
 		if (up) {
-			count++;
 			int h = bRow;
 			while (h < fold) {
-				count += foldHorizontalForVertical(paper, h++, bRow, bColumn, fold, column);
+				foldHorizontalForVertical(paper, h++, bRow, bColumn, fold, column);
 			}
 		}
 		if (down) {
-			count++;
 			int h = 1;
 			int nbRow = bRow + fold;
 			while (h < (row - fold)) {
-				count += foldHorizontalForVertical(paper, h++, nbRow, bColumn, row - fold, column);
+				foldHorizontalForVertical(paper, h++, nbRow, bColumn, row - fold, column);
 			}
 		}
-		return count;
 	}
 
 	// 以深度优先方式遍历水平折叠结果，当遍历完成后再遍历其垂直折叠
-	private int foldHorizontal(String[] paper, int fold, int bRow, int bColumn, int row, int column) {
+	private void foldHorizontal(String[] paper, int fold, int bRow, int bColumn, int row, int column) {
 		if (fold == row) {
-			return 0;
+			return;
 		}
 		int checkSymmetry = judgeRowSymmetry(paper, fold, bRow, bColumn, row, column);
 		if (checkSymmetry == 0) {
-			return 0;
+			return;
 		}
 
-		int count = 0;
 		boolean up = false, down = false;
 		if (checkSymmetry == 1) {
 			up = true;
@@ -132,41 +123,37 @@ public class BoardFoldingDiv2 {
 			down = true;
 		}
 		if (up) {
-			count++;
 			int h = 1;
 			while (h < fold) {
-				count += foldHorizontal(paper, h++, bRow, bColumn, fold, column);
+				foldHorizontal(paper, h++, bRow, bColumn, fold, column);
 			}
 			int v = 1;
 			while (v < column) {
-				count += foldVerticalForHorizontal(paper, v++, bRow, bColumn, fold, column);
+				foldVerticalForHorizontal(paper, v++, bRow, bColumn, fold, column);
 			}
 		}
 		if (down) {
-			count++;
 			int h = 1;
 			int nbRow = bRow + fold;
 			while (h < (row - fold)) {
-				count += foldHorizontal(paper, h++, nbRow, bColumn, row - fold, column);
+				foldHorizontal(paper, h++, nbRow, bColumn, row - fold, column);
 			}
 			int v = 1;
 			while (v < column) {
-				count += foldVerticalForHorizontal(paper, v++, nbRow, bColumn, row - fold, column);
+				foldVerticalForHorizontal(paper, v++, nbRow, bColumn, row - fold, column);
 			}
 		}
-		return count;
 	}
 
-	private int foldVerticalForHorizontal(String[] paper, int fold, int bRow, int bColumn, int row, int column) {
+	private void foldVerticalForHorizontal(String[] paper, int fold, int bRow, int bColumn, int row, int column) {
 		if (fold == column) {
-			return 0;
+			return;
 		}
 		int checkSymmetry = judgeColumnSymmetry(paper, fold, bRow, bColumn, row, column);
 		if (checkSymmetry == 0) {
-			return 0;
+			return;
 		}
 
-		int count = 0;
 		boolean before = false, after = false;
 		if (checkSymmetry == 1) {
 			before = true;
@@ -177,21 +164,18 @@ public class BoardFoldingDiv2 {
 			after = true;
 		}
 		if (before) {
-			count++;
 			int v = bColumn;
 			while (v < fold) {
-				count += foldVerticalForHorizontal(paper, v++, bRow, bColumn, row, fold);
+				foldVerticalForHorizontal(paper, v++, bRow, bColumn, row, fold);
 			}
 		}
 		if (after) {
-			count++;
 			int v = 1;
 			int nbColumn = bColumn + fold;
 			while (v < (column - fold)) {
-				count += foldVerticalForHorizontal(paper, v++, bRow, nbColumn, row, column - fold);
+				foldVerticalForHorizontal(paper, v++, bRow, nbColumn, row, column - fold);
 			}
 		}
-		return count;
 	}
 
 	// 如果对称，则返回1/2/3，分别代表上侧保留/下侧保留/上下都保留。如果不对称，则返回0
@@ -305,6 +289,10 @@ public class BoardFoldingDiv2 {
 			record.put(coordinate, new HashSet<String>());
 		}
 
-		return record.get(coordinate).add(lengthWidth);
+		boolean repeat = record.get(coordinate).add(lengthWidth);
+		if (repeat) {
+			count++;
+		}
+		return repeat;
 	}
 }
