@@ -1,4 +1,7 @@
+import SRM_639.BoardFoldingDiv2;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class BoardFoldingDiv2Test {
 	
